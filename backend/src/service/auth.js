@@ -1,5 +1,6 @@
 
 import UserModel from "../model/user.js";
+import { generateTokenAndSetCookie } from "../utils/generateToken.js";
 
 export const signUp = async (fullname, username, email, password, confirmPassword, gender, profilePic) => {
     if (password != confirmPassword) {
@@ -21,5 +22,12 @@ export const signUp = async (fullname, username, email, password, confirmPasswor
         profilePic: picture
     })
     await user.save()
+    return user
+}
+export const login = async (usernameOrEmail, password) => {
+
+
+    const user = await UserModel.findByCredential(usernameOrEmail, password)
+    console.log(user, "the actual user")
     return user
 }
