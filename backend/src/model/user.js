@@ -23,5 +23,21 @@ user.pre("save", async function () {
 
 })
 
+user.statics.findByCredential = async function (usernameOrEmail, password) {
+    const user = await UserModel.findOne({
+        "$or": [{ username: usernameOrEmail }, { email: usernameOrEmail }]
+    })
+    if (!user) {
+        console.log("user doesnot exist")
+        throw new Error("user doesnot exist")
+    }
+    const checkPassword = await bcrypt.compare(password, user.password)
+    if (!checkPassword) {
+        throw new Error("password doesnot match")
+    }
+    return user
+
+}
+
 const UserModel = mongoose.model("User", user)
 export default UserModel
