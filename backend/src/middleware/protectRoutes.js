@@ -9,7 +9,6 @@ export const protectedRoute = async (req, res, next) => {
         throw new Error("cannot find token")
     }
     const decoded = jwt.verify(token, process.env.SECRET_TOKEN)
-    console.log(decoded, "decoded value")
     if (!decoded) {
         throw new Error("something went wrong")
 
@@ -18,7 +17,6 @@ export const protectedRoute = async (req, res, next) => {
     if (!user) {
         return res.status(400).json({ message: "user not found" })
     }
-    console.log(user, "from middleware")
     req.senderId = user
     next()
 

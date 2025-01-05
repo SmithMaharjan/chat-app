@@ -7,13 +7,17 @@ export const get = (req, res) => {
 }
 
 export const signUp = async (req, res) => {
-    const { fullname, username, email, password, confirmPassword, gender, profilePic } = req.body
-    const bufferFile = req.file.buffer
-    const response = await uploadToCloudinary("name", bufferFile)
+    const { fullName, username, email, password, confirmPassword, gender, profilePic } = req.body
+    if (req.file && req.file.buffer) {
+        const bufferFile = req.file.buffer
+        const response = await uploadToCloudinary("name", bufferFile)
+        profilePic = response.secure_url
+    }
+
 
     try {
 
-        const user = await AuthService.signUp(fullname, username, email, password, confirmPassword, gender, response.secure_url)
+        const user = await AuthService.signUp(fullName, username, email, password, confirmPassword, gender, profilePic)
         generateTokenAndSetCookie(user._id, res)
 
         return res.status(200).json({ message: "user registered" })
@@ -26,6 +30,7 @@ export const signUp = async (req, res) => {
 
 export const login = async (req, res) => {
     const { usernameOrEmail, password } = req.body
+    console.log(usernameOrEmail, password)
 
     try {
         const user = await AuthService.login(usernameOrEmail, password)

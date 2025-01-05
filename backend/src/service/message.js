@@ -25,12 +25,11 @@ export const sentmessage = async (message, receiverId, senderId) => {
 }
 
 export const getMessages = async (receiverId, senderId) => {
-    const conversation = await conversationModel.find({
+    const conversation = await conversationModel.findOne({
         "participants": { $all: [receiverId, senderId] }
     }).populate("messages")
     if (!conversation) {
         throw new Error("no messages found")
     }
-    console.log(conversation)
-    return conversation
+    return conversation.messages
 }

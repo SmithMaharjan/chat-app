@@ -28,6 +28,5 @@ export const login = async (usernameOrEmail, password) => {
 
 
     const user = await UserModel.findByCredential(usernameOrEmail, password)
-    console.log(user, "the actual user")
     return user
 }
