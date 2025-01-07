@@ -25,8 +25,6 @@ export const signUp = async (fullname, username, email, password, confirmPasswor
     return user
 }
 export const login = async (usernameOrEmail, password) => {
-
-
     const user = await UserModel.findByCredential(usernameOrEmail, password)
     return user
 }

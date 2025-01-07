@@ -35,7 +35,7 @@ export const login = async (req, res) => {
     try {
         const user = await AuthService.login(usernameOrEmail, password)
         generateTokenAndSetCookie(user._id, res)
-        return res.status(200).json({ message: "logged in" })
+        return res.status(200).json({ message: "logged in", response: user })
 
     }
     catch (error) {
