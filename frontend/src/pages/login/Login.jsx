@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { login } from '../../api/auth'
+import { useUser } from '../../context/User'
 
 const Login = () => {
+    const { setToken } = useUser()
     const [formState, setFormState] = useState({
         usernameOrEmail: "",
         password: "",
@@ -27,13 +29,8 @@ const Login = () => {
 
 
         const response = await login(formState)
-        console.log(response, "the backend response")
-
-
-
-
-
-
+        setToken(response.data.response)
+        console.log(response.data.response, "the backend response")
     }
 
 
